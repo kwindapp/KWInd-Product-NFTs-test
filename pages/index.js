@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { NFTStorage, File } from 'nft.storage'
 import { ethers } from 'ethers'
 
-const contractAddress = "0xYourContractAddress" // Replace with your actual contract address
+const contractAddress = "0x0DaDd3f160C764d6bD29795891319Dec55d71903" // Replace with your actual contract address
 const contractABI = [
   "function mintNFT(address recipient, string memory tokenURI) public returns (uint256)"
 ]
@@ -45,19 +45,19 @@ export default function UploadForm() {
     const interval = setInterval(() => {
       document.title = tabTitle.substring(pos) + tabTitle.substring(0, pos)
       pos = (pos + 1) % tabTitle.length
-    }, 300)
+    }, 700)
     return () => clearInterval(interval)
   }, [])
 
   // Animate page heading text
-  const fullHeading = "HeliumSmartWorld KWind Product NFT Mint Tool 🚀   "
+  const fullHeading = "HeliumSmartWorld Product NFT Mint Tool 🚀"
   const [animatedHeading, setAnimatedHeading] = useState(fullHeading)
   useEffect(() => {
     let pos = 0
     const interval = setInterval(() => {
       setAnimatedHeading(fullHeading.substring(pos) + fullHeading.substring(0, pos))
       pos = (pos + 1) % fullHeading.length
-    }, 300)
+    }, 700)
     return () => clearInterval(interval)
   }, [])
 
