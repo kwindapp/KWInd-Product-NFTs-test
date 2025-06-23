@@ -5,17 +5,17 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract ProductNFT is ERC721URIStorage, Ownable {
-    uint256 private _tokenIds;
+    uint256 public tokenCounter;
 
-    constructor() ERC721("ProductNFT", "PNFT") Ownable(msg.sender) {}
+    constructor() ERC721("ProductNFT", "PNFT") {
+        tokenCounter = 0;
+    }
 
     function mintNFT(address recipient, string memory tokenURI) public onlyOwner returns (uint256) {
-        _tokenIds++;
-
-        uint256 newItemId = _tokenIds;
-        _mint(recipient, newItemId);
-        _setTokenURI(newItemId, tokenURI);
-
-        return newItemId;
+        uint256 newTokenId = tokenCounter;
+        _safeMint(recipient, newTokenId);
+        _setTokenURI(newTokenId, tokenURI);
+        tokenCounter++;
+        return newTokenId;
     }
 }
