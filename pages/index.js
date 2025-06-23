@@ -1,24 +1,35 @@
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import { NFTStorage, File } from 'nft.storage'
-import { ethers } from 'ethers'
+import { BrowserProvider, Contract } from 'ethers' // ethers v6
+import lighthouse from '@lighthouse-web3/sdk'
 
-const contractAddress = "0x0DaDd3f160C764d6bD29795891319Dec55d71903" // Replace with your actual contract address
+const contractAddress = "0x0DaDd3f160C764d6bD29795891319Dec55d71903"
 const contractABI = [
   "function mintNFT(address recipient, string memory tokenURI) public returns (uint256)"
 ]
 
-const NFT_STORAGE_KEY = "42baf681.b4b188b5a0bd417da29e0ef011116732"
-const client = new NFTStorage({ token: NFT_STORAGE_KEY })
+const LIGHTHOUSE_API_KEY = "63b24ba0.93cfe185ec934f388ff405ed06d9a31b" // Replace with your key
 
 const uploadToIPFS = async (name, description, imageFile) => {
   try {
-    const metadata = await client.store({
+    // Upload image file (array required by Lighthouse)
+    const imageUpload = await lighthouse.upload([imageFile], LIGHTHOUSE_API_KEY)
+    const imageCID = imageUpload.data.Hash
+    const imageURL = `ipfs://${imageCID}`
+
+    // Metadata JSON
+    const metadata = {
       name,
       description,
-      image: new File([imageFile], imageFile.name, { type: imageFile.type }),
-    })
-    return metadata.url
+      image: imageURL,
+    }
+
+    const blob = new Blob([JSON.stringify(metadata)], { type: 'application/json' })
+    const metadataFile = new File([blob], 'metadata.json', { type: 'application/json' })
+
+    // Upload metadata file
+    const metadataUpload = await lighthouse.upload([metadataFile], LIGHTHOUSE_API_KEY)
+    return `ipfs://${metadataUpload.data.Hash}`
   } catch (err) {
     throw new Error("IPFS upload failed: " + err.message)
   }
@@ -38,7 +49,7 @@ export default function UploadForm() {
   const [previewUrl, setPreviewUrl] = useState(null)
   const [mintedImageUrl, setMintedImageUrl] = useState(null)
 
-  // Animate browser tab title (document.title)
+  // Animate tab title
   useEffect(() => {
     const tabTitle = "KWind BSC NFT Mint Tool 🚀   "
     let pos = 0
@@ -49,7 +60,7 @@ export default function UploadForm() {
     return () => clearInterval(interval)
   }, [])
 
-  // Animate page heading text
+  // Animate heading text
   const fullHeading = "KWind BSC Product NFT Mint Tool 🚀"
   const [animatedHeading, setAnimatedHeading] = useState(fullHeading)
   useEffect(() => {
@@ -61,8 +72,13 @@ export default function UploadForm() {
     return () => clearInterval(interval)
   }, [])
 
+  // Wallet connection function
   const connectWallet = async () => {
     try {
+      if (!window.ethereum) {
+        setError("⚠ MetaMask not detected.")
+        return
+      }
       const accounts = await window.ethereum.request({ method: "eth_requestAccounts" })
       setAccount(accounts[0])
       setError(null)
@@ -71,6 +87,7 @@ export default function UploadForm() {
     }
   }
 
+  // Fetch metadata from IPFS and get image URL
   const fetchMetadataAndGetImageUrl = async (tokenURI) => {
     try {
       const url = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
@@ -83,6 +100,7 @@ export default function UploadForm() {
     }
   }
 
+  // Mint NFT handler
   const mintNFT = async (e) => {
     e.preventDefault()
     setError(null)
@@ -96,24 +114,29 @@ export default function UploadForm() {
     try {
       setMinting(true)
 
+      // Upload metadata + image to IPFS
       const tokenURI = await uploadToIPFS(
         productName,
         additionalData || "No additional data",
         file
       )
 
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner()
-      const contract = new ethers.Contract(contractAddress, contractABI, signer)
+      // Connect to provider and signer (using ethers v6)
+      const provider = new BrowserProvider(window.ethereum)
+      const signer = await provider.getSigner()
+      const contract = new Contract(contractAddress, contractABI, signer)
 
+      // Mint NFT transaction
       const tx = await contract.mintNFT(account, tokenURI)
       await tx.wait()
 
       alert("✅ NFT minted!\nTransaction Hash:\n" + tx.hash)
 
+      // Fetch minted NFT image URL
       const imageUrl = await fetchMetadataAndGetImageUrl(tokenURI)
       setMintedImageUrl(imageUrl)
 
+      // Clear form inputs
       setProductName("")
       setProductModel("")
       setYear("")
@@ -121,7 +144,8 @@ export default function UploadForm() {
       setAdditionalData("")
       setFile(null)
       setPreviewUrl(null)
-      document.getElementById("image-upload").value = null
+      const fileInput = document.getElementById("image-upload")
+      if (fileInput) fileInput.value = null
 
     } catch (err) {
       console.error(err)
@@ -131,6 +155,7 @@ export default function UploadForm() {
     }
   }
 
+  // Handle file input changes and preview
   const onFileChange = (e) => {
     const selectedFile = e.target.files?.[0] || null
     setFile(selectedFile)
@@ -156,7 +181,6 @@ export default function UploadForm() {
 
       <div className="flex items-center justify-center bg-white min-h-screen">
         <div className="w-2/3 max-w-screen mt-6">
-
           <h1 className="text-4xl sm:text-5xl font-bold text-center mb-8 tracking-tight drop-shadow-md">
             {animatedHeading}
           </h1>
@@ -164,10 +188,10 @@ export default function UploadForm() {
           <form onSubmit={mintNFT}>
             <div className="shadow sm:rounded-md sm:overflow-hidden">
               <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
-                <Input label="Product Name" value={productName} onChange={setProductName} placeholder="e.g.North" />
-                <Input label="Product Model" value={productModel} onChange={setProductModel} placeholder="e.g.Orbit 9m2" />
+                <Input label="Product Name" value={productName} onChange={setProductName} placeholder="e.g. North" />
+                <Input label="Product Model" value={productModel} onChange={setProductModel} placeholder="e.g. Orbit 9m2" />
                 <Input label="Year" value={year} onChange={setYear} type="number" placeholder="2025" />
-                <Input label="Serial Number" value={serialNumber} onChange={setSerialNumber} placeholder="SN:" />
+                <Input label="Serial Number" value={serialNumber} onChange={setSerialNumber} placeholder="SN:..." />
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Additional Data</label>
