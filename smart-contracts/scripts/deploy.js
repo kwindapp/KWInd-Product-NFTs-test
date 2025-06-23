@@ -1,18 +1,13 @@
-async function main() {
+const main = async () => {
   const [deployer] = await ethers.getSigners();
   console.log("Deploying contract with account:", deployer.address);
 
   const ProductNFT = await ethers.getContractFactory("ProductNFT");
   const productNFT = await ProductNFT.deploy();
 
-  await productNFT.deployed();
+  await productNFT.waitForDeployment();  // <-- fix here for ethers v6
 
-  console.log("ProductNFT deployed to:", productNFT.address);
+  console.log("Contract deployed at:", productNFT.target);  // ethers v6 uses `.target`
 }
 
-main()
-  .then(() => process.exit(0))
-  .catch(error => {
-    console.error(error);
-    process.exit(1);
-  });
+main();

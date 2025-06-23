@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { BrowserProvider, Contract } from 'ethers' // ethers v6
 import lighthouse from '@lighthouse-web3/sdk'
 
-const contractAddress = "0x0DaDd3f160C764d6bD29795891319Dec55d71903"
+const contractAddress = "0x07B49297b82Dd7F72140D1b5fBBeD0f428452513"
 const contractABI = [
   "function mintNFT(address recipient, string memory tokenURI) public returns (uint256)"
 ]
