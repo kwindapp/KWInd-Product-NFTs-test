@@ -1,3 +1,21 @@
+KKKKKKKKK    KKKKKKKWWWWWWWW                           WWWWWWWW iiii                               d::::::d
+K:::::::K    K:::::KW::::::W                           W::::::Wi::::i                              d::::::d
+K:::::::K    K:::::KW::::::W                           W::::::W iiii                               d::::::d
+K:::::::K   K::::::KW::::::W                           W::::::W                                    d:::::d 
+KK::::::K  K:::::KKK W:::::W           WWWWW           W:::::Wiiiiiiinnnn  nnnnnnnn        ddddddddd:::::d 
+  K:::::K K:::::K     W:::::W         W:::::W         W:::::W i:::::in:::nn::::::::nn    dd::::::::::::::d 
+  K::::::K:::::K       W:::::W       W:::::::W       W:::::W   i::::in::::::::::::::nn  d::::::::::::::::d 
+  K:::::::::::K         W:::::W     W:::::::::W     W:::::W    i::::inn:::::::::::::::nd:::::::ddddd:::::d 
+  K:::::::::::K          W:::::W   W:::::W:::::W   W:::::W     i::::i  n:::::nnnn:::::nd::::::d    d:::::d 
+  K::::::K:::::K          W:::::W W:::::W W:::::W W:::::W      i::::i  n::::n    n::::nd:::::d     d:::::d 
+  K:::::K K:::::K          W:::::W:::::W   W:::::W:::::W       i::::i  n::::n    n::::nd:::::d     d:::::d 
+KK::::::K  K:::::KKK        W:::::::::W     W:::::::::W        i::::i  n::::n    n::::nd:::::d     d:::::d 
+K:::::::K   K::::::K         W:::::::W       W:::::::W        i::::::i n::::n    n::::nd::::::ddddd::::::dd
+K:::::::K    K:::::K          W:::::W         W:::::W         i::::::i n::::n    n::::n d:::::::::::::::::d
+K:::::::K    K:::::K           W:::W           W:::W          i::::::i n::::n    n::::n  d:::::::::ddd::::d
+KKKKKKKKK    KKKKKKK            WWW             WWW           iiiiiiii nnnnnn    nnnnnn   ddddddddd   ddddd
+                                               
+
 METAMASK BSC TEST
 
 ✅ Step-by-Step: Add BSC Testnet to MetaMask
