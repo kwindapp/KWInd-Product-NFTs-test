@@ -1,21 +1,28 @@
-This is the NFT Minter starter template.
-<img width="834" alt="Screenshot 2025-06-23 at 19 17 34" src="https://github.com/user-attachments/assets/ef6d86f0-fc1a-4446-b5c5-4dee63a83423" />
+METAMASK BSC TEST
 
-## Getting Started
+✅ Step-by-Step: Add BSC Testnet to MetaMask
+Open MetaMask
 
-Clone or download the repo.
-Navigate into the donwloaded/cloned folder and install the dependencies typing the command
+Click your profile icon → "Settings"
 
-```bash
-npm install
-```
-<img width="1512" alt="Screenshot 2025-06-21 at 04 47 09" src="https://github.com/user-attachments/assets/603d6900-1211-4450-8311-dbadc2bda093" />
+Go to "Networks" → then click "Add Network"
 
-Step 2: Replace await productNFT.deployed() with await productNFT.waitForDeployment()
-Here’s the corrected code:
+Click "Add a network manually"
 
-jStep 2: Replace await productNFT.deployed() with await productNFT.waitForDeployment()
-Here’s the corrected code:
+Fill in the following BSC Testnet settings:
+
+🔧 BSC Testnet Configuration:
+Field	Value
+Network Name	BSC Testnet
+New RPC URL	https://data-seed-prebsc-1-s1.binance.org:8545/
+Chain ID	97
+Currency Symbol	tBNB
+Block Explorer	https://testnet.bscscan.com
+
+
+
+
+
 
 js
 Copy
