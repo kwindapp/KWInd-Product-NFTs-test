@@ -8,7 +8,7 @@ const contractABI = [
   "function mintNFT(address recipient, string memory tokenURI) public returns (uint256)"
 ]
 
-const LIGHTHOUSE_API_KEY = "63b24ba0.93cfe185ec93xxxxxxx??" // Replace with your key
+const LIGHTHOUSE_API_KEY = "63b24ba0.93cfe185ec934f388ff405ed06d9a31b" // Replace with your key
 
 const uploadToIPFS = async (name, description, imageFile) => {
   try {
