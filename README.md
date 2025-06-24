@@ -20,7 +20,7 @@ Currency Symbol	tBNB
 Block Explorer	https://testnet.bscscan.com
 
 
-
+IPFS Storage https://www.lighthouse.storage/
 
 
 
